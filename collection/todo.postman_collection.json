@@ -15,6 +15,9 @@
 							"pm.test(\"Status test\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"pm.test(\"Response time is less than 200ms\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
 							"pm.test(\"response should be okay to process\", function () {",
 							"    pm.response.to.not.be.error;",
 							"    pm.response.to.not.have.jsonBody(\"error\");",
@@ -26,8 +29,7 @@
 							"    pm.response.to.have.jsonBody(\"userId\")",
 							"});",
 							"pm.test(\"ID should be 1\", function () {",
-							"    pm.response.to.have.jsonBody(\"id\")",
-							"    ",
+							"    pm.expect(pm.response.json().id).to.equal(1) ",
 							"});",
 							""
 						],
@@ -64,20 +66,23 @@
 							"pm.test(\"Status test\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"pm.test(\"Response time is less than 500ms\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
 							"pm.test(\"response should be okay to process\", function () {",
 							"    pm.response.to.not.be.error;",
 							"    pm.response.to.not.have.jsonBody(\"error\");",
 							"});",
-							"pm.test(\"Must have a title\", function () {",
-							"    pm.response.to.have.jsonBody(\"title\")",
+							"pm.test(\"Title should be changed\", function () {",
+							"    pm.expect(pm.response.json().title).to.equal(\"the title edited for foo\")",
 							"});",
 							"pm.test(\"Must have a User ID\", function () {",
 							"    pm.response.to.have.jsonBody(\"userId\")",
 							"});",
 							"pm.test(\"ID should be 1\", function () {",
-							"    pm.response.to.have.jsonBody(\"id\")",
-							"    ",
+							"    pm.expect(pm.response.json().id).to.equal(1) ",
 							"});",
+							"",
 							""
 						],
 						"type": "text/javascript"
@@ -95,7 +100,76 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"the title edited for foo\",\n    \"body\" : \"Fake way to change the body\"\n}"
+					"raw": "{\n    \"title\": \"the title edited for foo\"   \n}"
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://jsonplaceholder.typicode.com/posts/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"pm.test(\"response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"pm.test(\"Title should be 'foo'\", function () {",
+							"    pm.expect(pm.response.json().title).to.equal(\"foo\")",
+							"});",
+							"pm.test(\"Body should be 'bar'\", function () {",
+							"    pm.expect(pm.response.json().body).to.equal(\"bar\")",
+							"});",
+							"pm.test(\"Must have a User ID\", function () {",
+							"    pm.response.to.have.jsonBody(\"userId\")",
+							"});",
+							"pm.test(\"ID should be 1\", function () {",
+							"    pm.expect(pm.response.json().id).to.equal(1) ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"title\": \"foo\",\n    \"body\": \"bar\",\n    \"userId\": 1\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "https://jsonplaceholder.typicode.com/posts/1",
@@ -123,19 +197,24 @@
 							"pm.test(\"Status test\", function () {",
 							"    pm.response.to.have.status(201);",
 							"});",
+							"pm.test(\"Response time is less than 500ms\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
 							"pm.test(\"response should be okay to process\", function () {",
 							"    pm.response.to.not.be.error;",
 							"    pm.response.to.not.have.jsonBody(\"error\");",
 							"});",
-							"pm.test(\"Must have a title\", function () {",
-							"    pm.response.to.have.jsonBody(\"title\")",
+							"pm.test(\"Title should be 'foo'\", function () {",
+							"    pm.expect(pm.response.json().title).to.equal(\"foo\")",
+							"});",
+							"pm.test(\"Body should be 'bar'\", function () {",
+							"    pm.expect(pm.response.json().body).to.equal(\"bar\")",
 							"});",
 							"pm.test(\"Must have a User ID\", function () {",
 							"    pm.response.to.have.jsonBody(\"userId\")",
 							"});",
-							"pm.test(\"ID should be 1\", function () {",
-							"    pm.response.to.have.jsonBody(\"id\")",
-							"    ",
+							"pm.test(\"ID should be 101\", function () {",
+							"    pm.expect(pm.response.json().id).to.equal(101) ",
 							"});",
 							""
 						],
@@ -186,11 +265,11 @@
 							"pm.test(\"Status test\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"pm.test(\"response should be okay to process\", function () {",
+							"pm.test(\"Response should be okay to process\", function () {",
 							"    pm.response.to.not.be.error;",
 							"    pm.response.to.not.have.jsonBody(\"error\");",
 							"});",
-							"pm.test(\"Must be empty\", function () {",
+							"pm.test(\"Body Must be empty\", function () {",
 							"    pm.response.to.not.have.jsonBody(\"\")",
 							"});",
 							""
@@ -202,6 +281,10 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "https://jsonplaceholder.typicode.com/posts/1",
 					"protocol": "https",
@@ -225,6 +308,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"const jsonData = pm.response.json();",
 							"pm.test(\"Status test\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -232,16 +316,11 @@
 							"    pm.response.to.not.be.error;",
 							"    pm.response.to.not.have.jsonBody(\"error\");",
 							"});",
-							"pm.test(\"Must have a title\", function () {",
-							"    pm.response.to.have.jsonBody(\"title\")",
+							"pm.test(\"Find an entry with id and check the title\", function () {",
+							"    const item = jsonData.find(i => i.id == 7)",
+							"    pm.expect(item.title).to.equal(\"magnam facilis autem\")",
 							"});",
-							"pm.test(\"Must have a User ID\", function () {",
-							"    pm.response.to.have.jsonBody(\"userId\")",
-							"});",
-							"pm.test(\"ID should be 1\", function () {",
-							"    pm.response.to.have.jsonBody(\"id\")",
-							"    ",
-							"});",
+							"",
 							""
 						],
 						"type": "text/javascript"
@@ -279,6 +358,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"const jsonData = pm.response.json();",
 							"pm.test(\"Status test\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -286,15 +366,9 @@
 							"    pm.response.to.not.be.error;",
 							"    pm.response.to.not.have.jsonBody(\"error\");",
 							"});",
-							"pm.test(\"Must have a title\", function () {",
-							"    pm.response.to.have.jsonBody(\"title\")",
-							"});",
-							"pm.test(\"Must have a User ID\", function () {",
-							"    pm.response.to.have.jsonBody(\"userId\")",
-							"});",
-							"pm.test(\"ID should be 1\", function () {",
-							"    pm.response.to.have.jsonBody(\"id\")",
-							"    ",
+							"pm.test(\"Find an entry with id and check the email\", function () {",
+							"    const item = jsonData.find(i => i.id == 5)",
+							"    pm.expect(item.email).to.equal(\"Hayden@althea.biz\")",
 							"});",
 							""
 						],
@@ -324,6 +398,30 @@
 		},
 		{
 			"name": "https://jsonplaceholder.typicode.com/users/1/todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"Find an entry with id and check the completion status\", function () {",
+							"    const item = jsonData.find(i => i.id == 1)",
+							"    pm.expect(item.completed).to.equal(false)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
